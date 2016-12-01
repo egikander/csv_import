@@ -1,2 +1,12 @@
-#!/usr/bin/env bash
-npm install
+#!/usr/bin/env node
+
+var exec = require('child_process').exec;
+
+function puts(error, stdout, stderr) {
+    if(error) console.error(error);
+    console.log(stdout);
+}
+
+var cmd  = 'npm install';
+
+exec(cmd, puts);
