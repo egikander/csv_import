@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+var readline = require('readline');
+var rl = readline.createInterface(process.stdin, process.stdout);
+var fs = require('fs');
+var path = require('path');
+var mysql = require('mysql');
+
+var mysqlUser;
+var mysqlPassword;
+
+rl.question('Please enter MySQL user name:', function(username) {
+    mysqlUser = username;
+    rl.question('Please enter MySQL passsword:', function(password) {
+        mysqlPassword = password;
+
+        rl.close();
+        //add username and password to config
+        var configStr = "config['user'] = \'" + mysqlUser + "\';\nconfig['password'] = \'" + mysqlPassword + "\';\n";
+        fs.appendFileSync(path.resolve('db/config.js'), configStr);
+
+        //import mysql statements
+        var dbConfig = require('../db/config');
+        //database doesn't exist yet
+        delete dbConfig['database'];
+        //enable multiple statements support
+        dbConfig['multipleStatements'] = true;
+
+        var connection = mysql.createConnection(dbConfig);
+        connection.connect();
+
+        //read statements from file
+        var statements = fs.readFileSync(path.resolve('deploy/db.sql')).toString();
+        connection.query(statements, function(err, res) {
+            if(err) console.log(err);
+            console.log('All statements have been executed successfully');
+        });
+        connection.end();
+    });
+});
