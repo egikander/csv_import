@@ -35,8 +35,6 @@ function importCSVToDB(filename, reportEmail, importDate){
         //if last batch less than 1000
         db.query(sql, [values], function(err) {
             if(err) throw err;
-            //close connection to db
-            db.end();
             endTime = moment.now();
             diffTime = spentTime(startTime, endTime);
             //send email with report to user

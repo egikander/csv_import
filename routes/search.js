@@ -86,15 +86,22 @@ router.get('/getcsvdata', function(req, res) {
         if(err) {
             console.log(err);
         }
-
+        if(!results) {
+            res.json({});
+            return;
+        }
         rResult = results;
 
-        //Data set length after filtering 
+        //Data set length after filtering
         sQuery = 'SELECT FOUND_ROWS()';
 
         db.query(sQuery, function (err, results, fields) {
             if(err) {
                 console.log(err);
+            }
+            if(!results) {
+                res.json({});
+                return;
             }
             rResultFilterTotal = results;
             aResultFilterTotal = rResultFilterTotal;
@@ -107,30 +114,33 @@ router.get('/getcsvdata', function(req, res) {
                 if(err) {
                     console.log(err);
                 }
-                rResultTotal = results;
-                aResultTotal = rResultTotal;
-                iTotal = aResultTotal[0]['COUNT(*)'];
-
                 //Output
                 var output = {};
                 var temp = [];
+                if(results) {
+                    rResultTotal = results;
+                    aResultTotal = rResultTotal;
+                    iTotal = aResultTotal[0]['COUNT(*)'];
 
-                output.sEcho = parseInt(request['sEcho']);
-                output.iTotalRecords = iTotal;
-                output.iTotalDisplayRecords = iFilteredTotal;
-                output.aaData = [];
-            
-                var aRow = rResult;
-                var row = [];
 
-                for(var i in aRow) {
-                    for(Field in aRow[i]) {
-                        if(!aRow[i].hasOwnProperty(Field)) continue;
-                        temp.push(aRow[i][Field]);
+                    output.sEcho = parseInt(request['sEcho']);
+                    output.iTotalRecords = iTotal;
+                    output.iTotalDisplayRecords = iFilteredTotal;
+                    output.aaData = [];
+
+                    var aRow = rResult;
+                    var row = [];
+
+                    for(var i in aRow) {
+                        for(Field in aRow[i]) {
+                            if(!aRow[i].hasOwnProperty(Field)) continue;
+                            temp.push(aRow[i][Field]);
+                        }
+                        output.aaData.push(temp);
+                        temp = [];
                     }
-                    output.aaData.push(temp);
-                    temp = [];
                 }
+
                 res.json(output);
             });
         });
