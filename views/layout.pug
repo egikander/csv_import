@@ -1,0 +1,36 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='shortcut icon', href='/static/favicon.ico')
+    title= title
+    link(rel='stylesheet', href='/static/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/static/stylesheets/bootstrap-datetimepicker.min.css')
+    link(rel='stylesheet', href='/static/stylesheets/bootstrap-validator.min.css')
+    link(rel='stylesheet', href='/static/stylesheets/jquery.dataTables.min.css')
+    link(rel='stylesheet', href='/static/stylesheets/style.css')
+  body
+
+    .navbar.navbar-default.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          a.navbar-brand(href='/') CSV IMPORT
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li(class=(title == 'Import' ? 'active' : ''))
+              a(href='/') Import
+            li(class=(title == 'Search' ? 'active' : ''))
+              a(href='/search') Search
+
+    .container
+      .container-content
+        block content
+
+    script(src='/static/javascripts/jquery.min.js')
+    script(src='/static/javascripts/moment.min.js')
+    script(src='/static/javascripts/bootstrap.min.js')
+    script(src='/static/javascripts/bootstrap-validator.min.js')
+    script(src='/static/javascripts/bootstrap-datetimepicker.min.js')
+    script(src='/static/javascripts/datatables.min.js')
+    script(src='/static/javascripts/script.js')

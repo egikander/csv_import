@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  .row
+    .col-md-6.col-md-offset-3
+      h1= title
+
+      if msg.length > 0
+        .alert.alert-success
+          p= msg
+
+      form#import_form.form-horizontal(
+        method='POST',
+        action='/import',
+        enctype='multipart/form-data'
+      )
+
+        .form-group
+          .col-sm-4
+            label.control-label(for='csv_file') CSV File:
+          .col-sm-8
+            input#csv_file.form-control(
+              type='file',
+              name='csv_file'
+            )
+
+        .form-group
+          .col-sm-4
+            label.control-label(for='report_email') Send report to email:
+          .col-sm-8
+            input#report_email.form-control(
+              type='email',
+              placeholder='Email',
+              name='report_email'
+            )
+
+        .form-group
+          .col-sm-4
+            label.control-label(for='import_date') Import date:
+          .col-xs-8
+            input#import_date.form-control(
+              type='text',
+              placeholder='MM/DD/YYYY',
+              name='import_date'
+            )
+
+        .form-group
+            button.btn.btn-primary(type='submit', disabled='true', name='submitButton') Import

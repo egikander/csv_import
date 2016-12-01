@@ -1,0 +1,25 @@
+body {
+    padding-top: 20px;
+}
+.container-content {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.navbar-default {
+    background-color: #56C96E;
+}
+
+.navbar-default .navbar-brand {
+    color: #FFF;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #CCC;
+}
+
+.navbar-default .navbar-nav a {
+    color: #FFF;
+}
